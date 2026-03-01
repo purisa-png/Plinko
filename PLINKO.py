@@ -1,13 +1,30 @@
 ##PLINKO##
+# Possible positions- Peg or empty space
+# Number of Pegs(P), Number of Empty spaces (E)  , | E = P-1
 #Make the empty list for the board
 board = []
-#Add the rest of rows to the list
-for i in range (16):
-    board.append([i]) 
 
-# Add the gaps to the list
-#(code will check each nested list and add 2 + the first nested list number to that list
+#For each row in the board add pegs * row number
+for i in range(3,10):
+    row = ["P"] * i
+    
+
+
+#For each row, add an "E" in the gap
+    #Gaps are all the odd numbers Eg. Row 1 has "E" in place 1 and 3, Row 2 has "E" in 1,3 and 5, etc
+    
+    j = 1  # between first and second "P"
+    while j < len(row):
+        row.insert(j, "E")
+        j += 2  # add it to the next odd place
+    board.append(row)
 print(board)
-for row_number in board: #For each list in the board
-     row_number.insert(1, row_number+2) #Insert (2+the row number) in the 2nd place of that list
-print(board)
+
+#Time to add the ball now
+
+
+
+ 
+
+    
+
