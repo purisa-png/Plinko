@@ -1,4 +1,7 @@
 ##PLINKO##
+#Player will start with a certain amount of betting money
+money = 400
+import random
 # Possible positions- Peg or empty space
 # Number of Pegs(P), Number of Empty spaces (E)  , | E = P-1
 #Make the empty list for the board
@@ -21,10 +24,15 @@ for i in range(3,10):
 print(board)
 
 #Time to add the ball now
-
-
-
- 
+print("You have ${} to bet".format(money))
+#Drop ball into the middle column of the first row (so that it hits the first peg)
+current_col = 2
+#If direction = left(0) then column stays same, if direction = right(1) column +1
+for row in board:
+    direction = random.randint(0,1)
+    if direction == 1:
+        current_col += 1
+print(current_col)
 
     
 
