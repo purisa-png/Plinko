@@ -59,6 +59,8 @@ elif current_col > 3 and current_col < 12:
     betting_money * 0.5
     print("You lost half of your money")
 
+money = money + betting_money
+
     
 
 
