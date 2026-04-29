@@ -1,17 +1,28 @@
 ##PLINKO##
 import random
+
 #FUNCTIONS
 # Function to create board
-board = []
+
 def board_builder(n):
-    for i in range(5,n):
+
+    board = []
+    """Builds a board with n number of rows"""
+    for i in range(3,n+4):
         row = ["E"]*i
         board.append(row)
     return board
 
- 
+
+def print_board(board):
+        print(*board)
+        print("Board length {}".format(len(board)))
+
      
 #Function to calculate the balls path
+"""Simulates the path of a ball falling through the board with the
+help of the random module and returns the final landing column"""
+
 def calculate_path(board):
     # Start at the middle of the first row
     current_col = len(board[0]) // 2
@@ -19,82 +30,92 @@ def calculate_path(board):
     # Simulate the drop through each row
     for i in range(len(board) - 1):
         #  50/50 bounce off a peg
-        direction = random.randint(0, 1) 
+        direction = random.randint(0, 1)
+
         
         #In pyramid where each row is 1 wider:
         #staying at the same index = moving left
         #adding 1 to index = moving right
         if direction == 1:
             current_col += 1
-            
-        # Make sure the ball doesn't go out of bounds
-        current_col = max(0, min(current_col, len(board[i+1]) - 1))
+        
+        #Stop the ball going outside the board
+        #for row in board:
+        #    if current_col < 0:
+        #        current_col = 0
+        #    elif current_col >= len(row):
+        #        current_col = len(row) - 1
+        if current_col < 0:
+            current_col = 0
+        elif current_col >= len(board[i+1]):
+            current_col = len(board[i+1]) - 1
             
     return current_col
-    
+
+
+def calculate_money_earned(game_board, slot,current_money,money_bet):
+    """Calculates the money won by the user based on the balls distance from the center slot and returns winnings"""
+    center = len(game_board[-1]) // 2
+    distance = abs(slot - center)
+        
+    if distance > 10: #Edges (Big Win)
+        multiplier = 3
+        print("JACKPOT! You landed in slot {}.".format(slot,))
+    elif distance >= 5 and distance <= 10: #Mid range
+        multiplier = 1.5
+        print("Nice drop! Landed in slot {}. ".format(slot))
+
+    else: #Center
+        multiplier = 0.2
+        print("Ouch, center drop. Landed in slot {}.".format(slot))
+    winnings = money_bet * multiplier
+
+    if winnings > money_bet:
+        print("You have won ${}".format(winnings))
+    elif winnings < money_bet:
+        print("You have lost ${}".format(money_bet - winnings))
+
+
+    return winnings
 
 
 ## MAIN CODE ##
 if __name__ == "__main__":
 #Player will start with a certain amount of betting money
     money = 400
+    # Build a board of 12 rows
+    game_board = board_builder(12)
     print("WELCOME TO PLINKO")
 
     play_again = "yes"
 
-    while play_again == "yes" and money > 0:
+    print("Print the board")
+    print_board(game_board)
+
+    while play_again in ["yes", "y"] and money > 0:
+
 
         print("You have ${} to bet".format(money))
-        betting_money = int(input("How much would you like to bet? "))
-        money -= betting_money
+        while True:
+            try:
+                betting_money = int(input("How much would you like to bet? "))
+                if betting_money > 0 and money - betting_money >= 0:
+                    money -= betting_money
+                    break
+                
+                
+                else:
+                    print("Invalid bet amount")
+            except ValueError:
+                print("Please enter a valid number")
 
-        # Build a board of 12 rows
-        game_board = board_builder(12)
-        
-        # Get the final landing slot
+         # Get the final landing slot
         final_slot = calculate_path(game_board)
+        # Calculate money earned using the calculate_money_earned function
+        winnings = calculate_money_earned(game_board, final_slot,money,betting_money)
+        new_total = money+ winnings
+        print("You have ${}.".format(new_total))
+            
 
-        #Drop ball into the middle column of the first row (so that it hits the first peg)
-        current_col = len(board[0]) // 2
-
-        #If direction = left(0) then column stays same, if direction = right(1) column +1
-
-        for i in range(len(board)):     
-            direction = random.randint(0,1)
-    
-            if direction == 0:
-                current_col -= 2
-            else:
-                current_col += 1
-    
-            display_row = list(board[i])
-
-        #Stop the ball going outside the board
-            if current_col < 0:
-                current_col = 0
-            if current_col >= len(display_row):
-                current_col = len(display_row) - 1
-
-
-
-
-
-        #See how much money the user has won/lost based on distance from center
-        center = len(game_board[-1]) // 2
-        distance = abs(final_slot - center)
-        
-        if distance > 4: #Edges (Big Win)
-            winnings = beting_money * 3
-            print("JACKPOT! You landed in slot {}. Won ${}!".format(final_slot,winnings))
-        elif distance > 2: #Mid range
-            winnings = betting_money * 1.5
-            print("Nice drop! Landed in slot {}. Won ${}!".format(final_slot,winnings))
-        else: #Center (House edge)
-            winnings = betting_money * 0.2
-            print("Ouch, center drop. Landed in slot {}. Retained ${}.".format(final_slot,winnings))
-
-        money = money + winnings
-
-        print("You now have ${}".format(money))
 
         play_again = input("Would you like to go again? ").lower()
