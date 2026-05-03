@@ -41,7 +41,8 @@ help of the random module and returns the final landing column"""
     current_col = len(board[0]) // 2
     
     # Simulate the drop through each row
-    for i in range(len(board) - 1):
+  
+    for i in range(len(board)):
         #  50/50 bounce off a peg
         direction = random.randint(0, 1)
 
@@ -51,13 +52,13 @@ help of the random module and returns the final landing column"""
         #adding 1 to index = moving right
         if direction == 1:
             current_col += 1
-      #      print_board(board,i,current_col)
+        print_board(board,i,current_col)
         
         #Stop the ball going outside the board
         if current_col < 0:
             current_col = 0
-        elif current_col >= len(board[i+1]):
-            current_col = len(board[i+1]) - 1
+        elif current_col >= len(board[i]):
+            current_col = len(board[i]) - 1
 
             
     return current_col
@@ -100,7 +101,7 @@ if __name__ == "__main__":
 
     play_again = "yes"
 
-    print_board(game_board, 0,0)
+    #print_board(game_board, 0,0)
 
     while play_again in ["yes", "y"] and money > 0:
 
