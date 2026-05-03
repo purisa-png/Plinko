@@ -1,5 +1,7 @@
 ##PLINKO##
 import random
+import time
+import os
 
 #FUNCTIONS
 # Function to create board
@@ -14,6 +16,8 @@ def board_builder(n):
 
 
 def print_board(board,current_row,current_location):
+    #os.system('cls' if os.name == 'nt' else 'clear')  # ADD THIS - clears terminal
+    print("\n" * 100)
     max_row_length = len(" ".join(board[-1]))
 
     for row in range(len(board)):
@@ -26,6 +30,7 @@ def print_board(board,current_row,current_location):
         
         #  Use .center() to add the necessary leading spaces
         print(row_string.center(max_row_length))
+    time.sleep(0.3) # pause so you can see each step
 
         
     
@@ -52,13 +57,15 @@ help of the random module and returns the final landing column"""
         #adding 1 to index = moving right
         if direction == 1:
             current_col += 1
-        print_board(board,i,current_col)
+        
         
         #Stop the ball going outside the board
         if current_col < 0:
             current_col = 0
         elif current_col >= len(board[i]):
             current_col = len(board[i]) - 1
+
+        print_board(board, i, current_col)  # bounds check BEFORE printing
 
             
     return current_col
