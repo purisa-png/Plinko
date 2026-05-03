@@ -19,9 +19,8 @@ def print_board(board,current_row,current_location):
     for row in range(len(board)):
         row_copy = board[row][:]
         if row == current_row:
-            row_copy[current_location] == "@" # places ball instead of the item in the current location
+            row_copy[current_location] = "@" # places ball instead of the item in the current location
 
-    for row in board:
         #  Join the "e"s in the current list with a space between them
         row_string = " ".join(row_copy)
         
@@ -124,8 +123,8 @@ if __name__ == "__main__":
         final_slot = calculate_path(game_board)
         # Calculate money earned using the calculate_money_earned function
         winnings = calculate_money_earned(game_board, final_slot,money,betting_money)
-        new_total = money+ winnings
-        print("You have ${}.".format(new_total))
+        money += winnings
+        print("You have ${}.".format(money))
             
 
 
