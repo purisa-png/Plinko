@@ -5,25 +5,34 @@ import random
 # Function to create board
 
 def board_builder(n):
-
-    board = []
     """Builds a board with n number of rows"""
-    for i in range(3,n+4):
-        row = ["E"]*i
-        board.append(row)
+    board = [] 
+    for i in range(3,n+3):
+       row = ["."]*i
+       board.append(row)
     return board
 
 
 def print_board(board):
-        print(*board)
-        print("Board length {}".format(len(board)))
+    max_row_length = len(" ".join(board[-1]))
 
+    for row in board:
+        # 2. Join the "e"s in the current list with a space between them
+        row_string = " ".join(row)
+        
+        # 3. Use .center() to add the necessary leading/trailing whitespace
+        print(row_string.center(max_row_length))
+
+        
+    
+        
      
 #Function to calculate the balls path
-"""Simulates the path of a ball falling through the board with the
-help of the random module and returns the final landing column"""
+
 
 def calculate_path(board):
+    """Simulates the path of a ball falling through the board with the
+help of the random module and returns the final landing column"""
     # Start at the middle of the first row
     current_col = len(board[0]) // 2
     
@@ -61,7 +70,7 @@ def calculate_money_earned(game_board, slot,current_money,money_bet):
     if distance > 10: #Edges (Big Win)
         multiplier = 3
         print("JACKPOT! You landed in slot {}.".format(slot,))
-    elif distance >= 5 and distance <= 10: #Mid range
+    elif distance >= 3 and distance <= 10: #Mid range
         multiplier = 1.5
         print("Nice drop! Landed in slot {}. ".format(slot))
 
@@ -77,6 +86,7 @@ def calculate_money_earned(game_board, slot,current_money,money_bet):
 
 
     return winnings
+
 
 
 ## MAIN CODE ##
