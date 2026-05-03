@@ -13,14 +13,19 @@ def board_builder(n):
     return board
 
 
-def print_board(board):
+def print_board(board,current_row,current_location):
     max_row_length = len(" ".join(board[-1]))
 
+    for row in range(len(board)):
+        row_copy = board[row][:]
+        if row == current_row:
+            row_copy[current_location] == "@" # places ball instead of the item in the current location
+
     for row in board:
-        # 2. Join the "e"s in the current list with a space between them
-        row_string = " ".join(row)
+        #  Join the "e"s in the current list with a space between them
+        row_string = " ".join(row_copy)
         
-        # 3. Use .center() to add the necessary leading/trailing whitespace
+        #  Use .center() to add the necessary leading spaces
         print(row_string.center(max_row_length))
 
         
@@ -47,17 +52,14 @@ help of the random module and returns the final landing column"""
         #adding 1 to index = moving right
         if direction == 1:
             current_col += 1
+      #      print_board(board,i,current_col)
         
         #Stop the ball going outside the board
-        #for row in board:
-        #    if current_col < 0:
-        #        current_col = 0
-        #    elif current_col >= len(row):
-        #        current_col = len(row) - 1
         if current_col < 0:
             current_col = 0
         elif current_col >= len(board[i+1]):
             current_col = len(board[i+1]) - 1
+
             
     return current_col
 
@@ -99,8 +101,7 @@ if __name__ == "__main__":
 
     play_again = "yes"
 
-    print("Print the board")
-    print_board(game_board)
+    print_board(game_board, 0,0)
 
     while play_again in ["yes", "y"] and money > 0:
 
