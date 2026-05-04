@@ -1,7 +1,8 @@
 ##PLINKO##
+#cd ~/Desktop/Python #python3 PLINKO.py - To run it in terminal
+
 import random
 import time
-import os
 
 #FUNCTIONS
 # Function to create board
@@ -16,7 +17,6 @@ def board_builder(n):
 
 
 def print_board(board,current_row,current_location):
-    #os.system('cls' if os.name == 'nt' else 'clear')  # ADD THIS - clears terminal
     print("\n" * 100)
     max_row_length = len(" ".join(board[-1]))
 
@@ -76,10 +76,10 @@ def calculate_money_earned(game_board, slot,current_money,money_bet):
     center = len(game_board[-1]) // 2
     distance = abs(slot - center)
         
-    if distance > 10: #Edges (Big Win)
+    if distance > 5: #Edges (Big Win)
         multiplier = 3
         print("JACKPOT! You landed in slot {}.".format(slot,))
-    elif distance >= 3 and distance <= 10: #Mid range
+    elif distance >= 2 and distance <= 5: #Mid range
         multiplier = 1.5
         print("Nice drop! Landed in slot {}. ".format(slot))
 
@@ -88,6 +88,7 @@ def calculate_money_earned(game_board, slot,current_money,money_bet):
         print("Ouch, center drop. Landed in slot {}.".format(slot))
     winnings = money_bet * multiplier
 
+#Calculate winnings
     if winnings > money_bet:
         print("You have won ${}".format(winnings))
     elif winnings < money_bet:
